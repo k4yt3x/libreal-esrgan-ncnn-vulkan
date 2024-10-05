@@ -21,7 +21,6 @@ endif()
 
 # Options
 option(USE_SYSTEM_NCNN "Build with system libncnn" OFF)
-option(USE_SYSTEM_WEBP "Build with system libwebp" OFF)
 option(USE_STATIC_MOLTENVK "Link MoltenVK static library" OFF)
 
 # Find packages
@@ -106,9 +105,6 @@ endif()
 # NCNN library
 find_package(ncnn REQUIRED)
 
-# WebP library
-find_package(WebP REQUIRED)
-
 # Compile shaders
 set(SHADER_SPV_HEX_FILES)
 compile_shader(realesrgan_preproc.comp)
@@ -124,7 +120,7 @@ set_target_properties(realesrgan-ncnn-vulkan PROPERTIES OUTPUT_NAME realesrgan-n
 add_dependencies(realesrgan-ncnn-vulkan generate-spirv)
 
 # Link libraries
-target_link_libraries(realesrgan-ncnn-vulkan PUBLIC ncnn webp ${Vulkan_LIBRARY})
+target_link_libraries(realesrgan-ncnn-vulkan PUBLIC ncnn ${Vulkan_LIBRARY})
 
 if(OPENMP_FOUND)
     target_link_libraries(realesrgan-ncnn-vulkan PUBLIC OpenMP::OpenMP_CXX)
