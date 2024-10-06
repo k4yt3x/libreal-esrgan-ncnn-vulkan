@@ -153,6 +153,7 @@ if(NOT USE_SYSTEM_NCNN)
     option(NCNN_DISABLE_RTTI "" ON)
     option(NCNN_DISABLE_EXCEPTION "" ON)
     option(NCNN_BUILD_SHARED_LIBS "" OFF)
+    option(SKIP_GLSLANG_INSTALL "" ON)
 
     option(WITH_LAYER_absval "" OFF)
     option(WITH_LAYER_argmax "" OFF)
