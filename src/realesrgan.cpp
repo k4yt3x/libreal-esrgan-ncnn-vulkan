@@ -80,11 +80,7 @@ RealESRGAN::~RealESRGAN()
     delete bicubic_4x;
 }
 
-#if _WIN32
-int RealESRGAN::load(const std::wstring& parampath, const std::wstring& modelpath)
-#else
-int RealESRGAN::load(const std::string& parampath, const std::string& modelpath)
-#endif
+int RealESRGAN::load(const std::filesystem::path &parampath, const std::filesystem::path &modelpath)
 {
 #if _WIN32
     {

@@ -13,6 +13,7 @@
 #define LIBREALSERGAN_API
 #endif
 
+#include <filesystem>
 #include <string>
 
 // ncnn
@@ -25,11 +26,7 @@ class LIBREALSERGAN_API RealESRGAN {
     RealESRGAN(int gpuid, bool tta_mode = false);
     ~RealESRGAN();
 
-#if _WIN32
-    int load(const std::wstring &parampath, const std::wstring &modelpath);
-#else
-    int load(const std::string &parampath, const std::string &modelpath);
-#endif
+    int load(const std::filesystem::path &parampath, const std::filesystem::path &modelpath);
 
     int process(const ncnn::Mat &inimage, ncnn::Mat &outimage) const;
 
