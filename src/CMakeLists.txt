@@ -20,7 +20,7 @@ if(NOT CMAKE_BUILD_TYPE)
 endif()
 
 # Options
-option(USE_SYSTEM_NCNN "Build with system libncnn" OFF)
+option(USE_SYSTEM_NCNN "Build with system libncnn" ON)
 option(USE_STATIC_MOLTENVK "Link MoltenVK static library" OFF)
 
 # Find packages
@@ -103,45 +103,8 @@ else()
 endif()
 
 if(USE_SYSTEM_NCNN)
-    set(GLSLANG_TARGET_DIR "GLSLANG-NOTFOUND" CACHE PATH "Absolute path to glslangTargets.cmake directory")
-    if(NOT GLSLANG_TARGET_DIR AND NOT DEFINED ENV{GLSLANG_TARGET_DIR})
-        message(WARNING "GLSLANG_TARGET_DIR must be defined! USE_SYSTEM_NCNN will be turned off.")
-        set(USE_SYSTEM_NCNN OFF)
-    else()
-        message(STATUS "Using glslang install located at ${GLSLANG_TARGET_DIR}")
-
-        find_package(Threads)
-
-        include("${GLSLANG_TARGET_DIR}/OSDependentTargets.cmake")
-        include("${GLSLANG_TARGET_DIR}/OGLCompilerTargets.cmake")
-        if(EXISTS "${GLSLANG_TARGET_DIR}/HLSLTargets.cmake")
-            # hlsl support can be optional
-            include("${GLSLANG_TARGET_DIR}/HLSLTargets.cmake")
-        endif()
-        include("${GLSLANG_TARGET_DIR}/glslangTargets.cmake")
-        include("${GLSLANG_TARGET_DIR}/SPIRVTargets.cmake")
-
-        if (NOT TARGET glslang OR NOT TARGET SPIRV)
-            message(WARNING "glslang or SPIRV target not found! USE_SYSTEM_NCNN will be turned off.")
-            set(USE_SYSTEM_NCNN OFF)
-        endif()
-    endif()
-endif()
-
-if(USE_SYSTEM_NCNN)
-    find_package(ncnn)
-    if(NOT TARGET ncnn)
-        message(WARNING "ncnn target not found! USE_SYSTEM_NCNN will be turned off.")
-        set(USE_SYSTEM_NCNN OFF)
-    endif()
-endif()
-
-if(NOT USE_SYSTEM_NCNN)
-    # build ncnn library
-    if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/ncnn/CMakeLists.txt")
-        message(FATAL_ERROR "The submodules were not downloaded! Please update submodules with \"git submodule update --init --recursive\" and try again.")
-    endif()
-
+    find_package(ncnn REQUIRED)
+else()
     option(NCNN_INSTALL_SDK "" OFF)
     option(NCNN_PIXEL_ROTATE "" OFF)
     option(NCNN_VULKAN "" ON)
