@@ -211,7 +211,11 @@ add_custom_target(generate-spirv DEPENDS ${SHADER_SPV_HEX_FILES})
 # Add the shared library target
 add_library(realesrgan-ncnn-vulkan SHARED realesrgan.cpp)
 target_compile_definitions(realesrgan-ncnn-vulkan PRIVATE LIBREALSERGAN_EXPORTS)
-set_target_properties(realesrgan-ncnn-vulkan PROPERTIES OUTPUT_NAME realesrgan-ncnn-vulkan)
+if(WIN32)
+    set_target_properties(realesrgan-ncnn-vulkan PROPERTIES OUTPUT_NAME librealesrgan-ncnn-vulkan)
+else()
+    set_target_properties(realesrgan-ncnn-vulkan PROPERTIES OUTPUT_NAME realesrgan-ncnn-vulkan)
+endif()
 
 add_dependencies(realesrgan-ncnn-vulkan generate-spirv)
 
